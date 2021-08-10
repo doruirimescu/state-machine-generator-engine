@@ -24,7 +24,7 @@ class State
 
     /*-----------Members--------*/
     int state;
-    string label; 
+    string label;
     
     State* left;
     State* right;

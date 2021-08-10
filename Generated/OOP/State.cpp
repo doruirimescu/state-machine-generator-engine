@@ -1,5 +1,5 @@
 /* ----Generated code---- */
-#include "State.h" 
+#include "State.h"
 using namespace std;
 
 /*Constructor Destructor*/
@@ -47,8 +47,8 @@ void State::addSelect( State* s)
 	this -> select = s;
 }
 
-/* Debugging */ 
-void State::print()  
-{                  
+/* Debugging */
+void State::print()
+{
     cout << this -> label <<' '<< this -> state <<endl;
 }

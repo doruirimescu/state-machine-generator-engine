@@ -31,10 +31,10 @@ class State
 
     /*-----------Members--------*/
     int state;
-    string label; 
+    string label;
     %s
 };''' % ( add_actions, add_states )
 
-    f= open("Generated/State.h","w+")
+    f= open("Generated/OOP/State.h","w+")
     f.write(code)
-    f.close 
+    f.close
