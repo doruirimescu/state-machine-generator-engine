@@ -5,6 +5,10 @@ from dataclasses import dataclass, field
 from typing import List, Tuple
 from State import State
 
+""" State transition table. First column represents the starting state.
+The rest of the columns represent the state labels where you end up when performing
+the specified action from the starting state. -1 means that you remain in the starting state i.e. action not applicable.
+"""
 #   Label                           Left                        Right                    Up                 Down                            Select
 a=( ( "Menu 1",                     "Menu 2",                   -1,                     -1,                 "Menu1 Feature 1",             "Enter game1"),
     ( "Menu 2",                     "Menu 3",                   -1,                     -1,                 "Menu2 Feature 1",             -1),
@@ -17,6 +21,8 @@ a=( ( "Menu 1",                     "Menu 2",                   -1,             
     ( "Enter game1",                -1,                         -1,                     -1,                 -1,                            -1)
    )
 
+"""List of cpp code strings to be executed when each state is entered.
+"""
 outputs = ("cout<<\"1\"<<endl",
            "cout<<\"2\"<<endl",
            "cout<<\"3\"<<endl",
@@ -26,8 +32,15 @@ outputs = ("cout<<\"1\"<<endl",
            "cout<<\"7\"<<endl",
            "cout<<\"8\"<<endl",
            "cout<<\"Game1\"<<endl")
-
+"""List of all possible actions
+"""
 actionList = ("Left",  "Right", "Up",   "Down", "Select")
+
+"""List of reverse actions corresponding to actionList.
+Eg. If for each state A (from all state labels), whenever you take Left from state A
+and you end up in state B (from all state labels), you can specify
+Right in revActionList so that when you take Right in state B.
+"""
 revActionList = ("Right", "Left", "Down", "Up",   -1)
 
 

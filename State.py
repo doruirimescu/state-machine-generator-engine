@@ -1,7 +1,7 @@
 className = "State"
-
+from typing import List, Tuple, Dict
 class State:
-    def __init__( self, index, label, successors, output ):
+    def __init__( self, index: int, label: str, successors: Dict[str, int], output: Tuple[str] ):
         self.index = index
         self.label = label
         self.output = output
