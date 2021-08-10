@@ -2,10 +2,7 @@
 """
 #!/usr/bin/python3
 from Blueprint import blueprint
-from StateHeaderGenerator import stateheader
-from StateCppGenerator import statecpp
-from StateMachineHeaderGenerator import machineheader
-from StateMachineCppGenerator import machinecpp
+from Generator.OOP.OOPGenerator import OOPGenerator
 from Generator.Procedural.ProceduralGenerator import ProceduralGenerator
 from enum import Enum
 
@@ -16,10 +13,8 @@ class Modes(Enum):
 SELECTED_MODE = Modes.OOP
 
 if SELECTED_MODE == Modes.OOP:
-    stateheader(blueprint.actions)
-    statecpp(blueprint.actions, blueprint.reverseActions)
-    machineheader(blueprint.actions, blueprint.stateList)
-    machinecpp(blueprint.actions, blueprint.stateList)
+    gen = OOPGenerator()
+    gen.generate(blueprint)
 elif SELECTED_MODE == Modes.PROCEDURAL:
     gen = ProceduralGenerator()
     gen.generate(blueprint)
