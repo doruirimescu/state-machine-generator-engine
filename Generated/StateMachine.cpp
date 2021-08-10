@@ -82,15 +82,15 @@ void StateMachine::print()
 int main()
 {
     
-	State state0(0,"Menu 1");
-	State state1(1,"Menu 2");
-	State state2(2,"Menu 3");
-	State state3(3,"Menu1 Feature 1");
-	State state4(4,"Menu1 Feature 2");
-	State state5(5,"Menu1 Feature1 Subfeature 1");
-	State state6(6,"Menu3 Feature 1");
-	State state7(7,"Menu2 Feature 1");
-	State state8(8,"Enter game1");
+	State state0(0,"Menu_1");
+	State state1(1,"Menu_2");
+	State state2(2,"Menu_3");
+	State state3(3,"Menu_1_Feature_1");
+	State state4(4,"Menu_1_Feature_2");
+	State state5(5,"Menu_1_Feature_1_Subfeature_1");
+	State state6(6,"Menu_3_Feature_1");
+	State state7(7,"Menu_2_Feature_1");
+	State state8(8,"Enter_game_1");
 	state0.addLeft(&state1);
 	state0.addDown(&state3);
 	state0.addSelect(&state8);

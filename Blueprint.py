@@ -9,16 +9,16 @@ from State import State
 The rest of the columns represent the state labels where you end up when performing
 the specified action from the starting state. -1 means that you remain in the starting state i.e. action not applicable.
 """
-#   Label                           Left                        Right                    Up                 Down                            Select
-a=( ( "Menu 1",                     "Menu 2",                   -1,                     -1,                 "Menu1 Feature 1",             "Enter game1"),
-    ( "Menu 2",                     "Menu 3",                   -1,                     -1,                 "Menu2 Feature 1",             -1),
-    ( "Menu 3",                     -1,                         -1,                     -1,                 "Menu3 Feature 1",             -1),
-    ( "Menu1 Feature 1",            "Menu1 Feature 2",          -1,                     -1,                 "Menu1 Feature1 Subfeature 1", -1),
-    ( "Menu1 Feature 2",            -1,                         -1,                     -1,                 -1,                            -1),
-    ( "Menu1 Feature1 Subfeature 1",-1,                         -1,                     -1,                 -1,                            -1),
-    ( "Menu3 Feature 1",            -1,                         -1,                     -1,                 -1,                            -1),
-    ( "Menu2 Feature 1",            -1,                         -1,                     -1,                 -1,                            -1),
-    ( "Enter game1",                -1,                         -1,                     -1,                 -1,                            -1)
+#   Label                               Left                        Right                    Up                 Down                                Select
+a=( ( "Menu_1",                         "Menu_2",                   -1,                     -1,                 "Menu_1_Feature_1",                 "Enter_game_1"),
+    ( "Menu_2",                         "Menu_3",                   -1,                     -1,                 "Menu_2_Feature_1",                 -1),
+    ( "Menu_3",                         -1,                         -1,                     -1,                 "Menu_3_Feature_1",                 -1),
+    ( "Menu_1_Feature_1",               "Menu_1_Feature_2",         -1,                     -1,                 "Menu_1_Feature_1_Subfeature_1",    -1),
+    ( "Menu_1_Feature_2",               -1,                         -1,                     -1,                 -1,                                 -1),
+    ( "Menu_1_Feature_1_Subfeature_1",  -1,                         -1,                     -1,                 -1,                                 -1),
+    ( "Menu_3_Feature_1",               -1,                         -1,                     -1,                 -1,                                 -1),
+    ( "Menu_2_Feature_1",               -1,                         -1,                     -1,                 -1,                                 -1),
+    ( "Enter_game_1",                   -1,                         -1,                     -1,                 -1,                                 -1)
    )
 
 """List of cpp code strings to be executed when each state is entered.
