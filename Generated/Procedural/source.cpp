@@ -171,7 +171,3 @@ StateLabel performTransition(StateLabel current_state, Action action)
 	}
     return current_state;
 }
-int main()
-{
-
-}

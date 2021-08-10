@@ -6,6 +6,7 @@ from StateHeaderGenerator import stateheader
 from StateCppGenerator import statecpp
 from StateMachineHeaderGenerator import machineheader
 from StateMachineCppGenerator import machinecpp
+from Generator.Procedural.ProceduralGenerator import ProceduralGenerator
 from enum import Enum
 
 class Modes(Enum):
@@ -20,5 +21,5 @@ if SELECTED_MODE == Modes.OOP:
     machineheader(blueprint.actions, blueprint.stateList)
     machinecpp(blueprint.actions, blueprint.stateList)
 elif SELECTED_MODE == Modes.PROCEDURAL:
-    #TODO
-    pass
+    gen = ProceduralGenerator()
+    gen.generate(blueprint)
