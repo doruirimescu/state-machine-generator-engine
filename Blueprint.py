@@ -5,24 +5,16 @@ from dataclasses import dataclass, field
 from State import State
 
 #   Label                           Left                        Right                    Up                 Down                            Select
-a = (("Menu 1",                     "Menu 2",                   -1,                     -1,                 "Menu1 Feature 1",             "Enter game1"),
-     ("Menu 2",                     "Menu 3",                   -
-      1,                     -1,                 "Menu2 Feature 1",             -1),
-     ("Menu 3",                     -1,                         -
-      1,                     -1,                 "Menu3 Feature 1",             -1),
-     ("Menu1 Feature 1",            "Menu1 Feature 2",          -
-      1,                     -1,                 "Menu1 Feature1 Subfeature 1", -1),
-     ("Menu1 Feature 2",            -1,                         -
-      1,                     -1,                 -1,                            -1),
-     ("Menu1 Feature1 Subfeature 1", -1,                         -
-      1,                     -1,                 -1,                            -1),
-     ("Menu3 Feature 1",            -1,                         -
-      1,                     -1,                 -1,                            -1),
-     ("Menu2 Feature 1",            -1,                         -
-      1,                     -1,                 -1,                            -1),
-     ("Enter game1",                -1,                         -
-      1,                     -1,                 -1,                            -1)
-     )
+a=( ( "Menu 1",                     "Menu 2",                   -1,                     -1,                 "Menu1 Feature 1",             "Enter game1"),
+    ( "Menu 2",                     "Menu 3",                   -1,                     -1,                 "Menu2 Feature 1",             -1),
+    ( "Menu 3",                     -1,                         -1,                     -1,                 "Menu3 Feature 1",             -1),
+    ( "Menu1 Feature 1",            "Menu1 Feature 2",          -1,                     -1,                 "Menu1 Feature1 Subfeature 1", -1),
+    ( "Menu1 Feature 2",            -1,                         -1,                     -1,                 -1,                            -1),
+    ( "Menu1 Feature1 Subfeature 1",-1,                         -1,                     -1,                 -1,                            -1),
+    ( "Menu3 Feature 1",            -1,                         -1,                     -1,                 -1,                            -1),
+    ( "Menu2 Feature 1",            -1,                         -1,                     -1,                 -1,                            -1),
+    ( "Enter game1",                -1,                         -1,                     -1,                 -1,                            -1)
+   )
 
 outputs = ("cout<<\"1\"<<endl",
            "cout<<\"2\"<<endl",
