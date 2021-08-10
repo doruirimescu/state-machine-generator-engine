@@ -2,6 +2,7 @@
 It is the blueprint used to generated the code.
 """
 from dataclasses import dataclass, field
+from typing import List, Tuple
 from State import State
 
 #   Label                           Left                        Right                    Up                 Down                            Select
@@ -32,26 +33,28 @@ revActionList = ("Right", "Left", "Down", "Up",   -1)
 
 @dataclass(frozen=True)
 class Blueprint:
-    stateTransitionTable: tuple
-    stateOutputs: tuple
-    actions: tuple
-    reverseActions: tuple
-    stateList: list = field(init=False)
+    stateTransitionTable: Tuple[Tuple[str]]
+    stateOutputs: Tuple[str]
+    actions: Tuple[str]
+    reverseActions: Tuple[str]
+    stateList: List[State] = field(init=False)
 
-    def __post_init__(self):
-        fc = list(x[0] for x in self.stateTransitionTable)
+    def extractStatesFromTransitionTable(self):
+        stateLabels = list(x[0] for x in self.stateTransitionTable)
         stateList = list()
 
         for index, row in enumerate(self.stateTransitionTable):
             successors = dict()
-            for j, field in enumerate(row[1: len(self.actions) + 1]):
-                if -1 is not field:
-                    successors.update({self.actions[j]: fc.index(field)})
+            for successorIndex, successorLabel in enumerate(row[1: len(self.actions) + 1]):
+                if -1 is not successorLabel:
+                    successors.update({self.actions[successorIndex]: stateLabels.index(successorLabel)})
                 else:
                     continue
             s = State(index, row[0], successors, self.stateOutputs[index])
             stateList.append(s)
+        return stateList
 
-        object.__setattr__(self, "stateList", stateList)
+    def __post_init__(self):
+        object.__setattr__(self, "stateList", self.extractStatesFromTransitionTable())
 
 blueprint = Blueprint(a, outputs, actionList, revActionList)
