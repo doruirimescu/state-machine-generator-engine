@@ -1,7 +1,7 @@
  #!/usr/bin/python3
 
 def statecpp(actions, revActions):
-    
+
     constructor_code=""
     for a in actions:
             constructor_code += "\n\tthis -> "+str(a).lower()+" = this;"
@@ -15,7 +15,7 @@ def statecpp(actions, revActions):
                 building_code += "\n}"
 
     code ='''/* ----Generated code---- */
-#include \"State.h\" 
+#include \"state.h\"
 using namespace std;
 
 /*Constructor Destructor*/
@@ -32,11 +32,11 @@ State::~State()
 /* Building */\
 %s
 
-/* Debugging */ 
-void State::print()  
-{                  
+/* Debugging */
+void State::print()
+{
     cout << this -> label <<' '<< this -> state <<endl;
 }''' % (constructor_code, building_code)
-    f= open("Generated/State.cpp","w+")
+    f= open("generated/oop/state.cpp","w+")
     f.write(code)
     f.close()

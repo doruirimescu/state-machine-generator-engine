@@ -42,31 +42,31 @@ void StateMachine::input( int input )
     switch( input )
     {    
 	case 0:
-		cout<<"1"<<endl;
+		std::cout<<"1"<<std::endl;;
 		break;
 	case 1:
-		cout<<"2"<<endl;
+		std::cout<<"2"<<std::endl;;
 		break;
 	case 2:
-		cout<<"3"<<endl;
+		std::cout<<"3"<<std::endl;;
 		break;
 	case 3:
-		cout<<"4"<<endl;
+		std::cout<<"4"<<std::endl;;
 		break;
 	case 4:
-		cout<<"5"<<endl;
+		std::cout<<"5"<<std::endl;;
 		break;
 	case 5:
-		cout<<"6"<<endl;
+		std::cout<<"6"<<std::endl;;
 		break;
 	case 6:
-		cout<<"7"<<endl;
+		std::cout<<"7"<<std::endl;;
 		break;
 	case 7:
-		cout<<"8"<<endl;
+		std::cout<<"8"<<std::endl;;
 		break;
 	case 8:
-		cout<<"Game1"<<endl;
+		std::cout<<"Game1"<<std::endl;;
 		break;
     default:
         print();

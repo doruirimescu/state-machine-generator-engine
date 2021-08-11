@@ -1,6 +1,6 @@
 /* ----Generated code---- */
 #pragma once
-#include "State.h"
+#include "state.h"
 using namespace std;
 class StateMachine
 {

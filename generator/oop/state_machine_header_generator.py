@@ -7,7 +7,7 @@ def machineheader(actions, states):
 
     code='''/* ----Generated code---- */
 #pragma once
-#include \"State.h\"
+#include \"state.h\"
 using namespace std;
 class StateMachine
 {
@@ -30,6 +30,6 @@ class StateMachine
 \t/*-------------Members--------------*/
 \tState * ptr;
 };''' % add_actions
-    f= open("Generated/StateMachine.h","w+")
+    f= open("generated/oop/StateMachine.h","w+")
     f.write(code)
-    f.close 
+    f.close
