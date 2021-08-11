@@ -1,5 +1,5 @@
 /* ----Generated code---- */
-#include "StateMachine.h"
+#include "state_machine.h"
 using namespace std;
 /*Constructor Destructor*/
 StateMachine::StateMachine(State* ptr)

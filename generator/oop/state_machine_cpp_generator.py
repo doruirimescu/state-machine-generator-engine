@@ -22,7 +22,7 @@ def machinecpp(actions, states):
 
     #generate the code
     code='''/* ----Generated code---- */
-#include "StateMachine.h"
+#include "state_machine.h"
 using namespace std;
 /*Constructor Destructor*/
 StateMachine::StateMachine(State* ptr)
@@ -64,6 +64,6 @@ int main()
     ptr =&state%s;
     ''' % (add_actions, add_states, add_main, str(states[0].index) )
     code +="\n\treturn 0;\n}"
-    f= open("generated/oop/StateMachine.cpp","w+")
+    f= open("generated/oop/state_machine.cpp","w+")
     f.write(code)
     f.close

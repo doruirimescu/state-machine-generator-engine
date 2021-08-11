@@ -30,6 +30,6 @@ class StateMachine
 \t/*-------------Members--------------*/
 \tState * ptr;
 };''' % add_actions
-    f= open("generated/oop/StateMachine.h","w+")
+    f= open("generated/oop/state_machine.h","w+")
     f.write(code)
     f.close
