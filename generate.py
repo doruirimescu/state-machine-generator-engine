@@ -1,9 +1,9 @@
 """Generates the state machine cpp code
 """
 #!/usr/bin/python3
-from Blueprint import blueprint
-from Generator.OOP.OOPGenerator import OOPGenerator
-from Generator.Procedural.ProceduralGenerator import ProceduralGenerator
+from blueprint import blueprint
+from generator.oop.oop_generator import OOPGenerator
+from generator.procedural.ProceduralGenerator import ProceduralGenerator
 from enum import Enum
 
 class Modes(Enum):

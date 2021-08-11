@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Blueprint import Blueprint
+from blueprint import Blueprint
 
 
 class Generator(ABC):

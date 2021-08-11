@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 from typing import Generator
-from Blueprint import Blueprint, blueprint
-from State import State
-from Generator.Generator import Generator
+from blueprint import Blueprint, blueprint
+from state import State
+from generator.generator import Generator
 
 
 class ProceduralGenerator(Generator):
@@ -51,7 +51,7 @@ StateLabel performTransition(StateLabel current_state, Action action);
 
 ''' % (add_states, add_actions, add_outputs)
 
-        f = open("Generated/Procedural/header.h", "w+")
+        f = open("generated/procedural/header.h", "w+")
         f.write(code)
         f.close
 
@@ -102,6 +102,6 @@ StateLabel performTransition(StateLabel current_state, Action action)
 }
 ''' % ( add_outputs, add_onEntry, add_Transitions )
 
-        f= open("Generated/Procedural/source.cpp","w+")
+        f= open("generated/procedural/source.cpp","w+")
         f.write(code)
         f.close

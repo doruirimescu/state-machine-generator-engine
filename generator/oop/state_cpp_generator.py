@@ -15,7 +15,7 @@ def statecpp(actions, revActions):
                 building_code += "\n}"
 
     code ='''/* ----Generated code---- */
-#include \"State.h\"
+#include \"state.h\"
 using namespace std;
 
 /*Constructor Destructor*/
@@ -37,6 +37,6 @@ void State::print()
 {
     cout << this -> label <<' '<< this -> state <<endl;
 }''' % (constructor_code, building_code)
-    f= open("Generated/OOP/State.cpp","w+")
+    f= open("generated/oop/state.cpp","w+")
     f.write(code)
     f.close()

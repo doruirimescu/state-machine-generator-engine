@@ -1,6 +1,6 @@
  #!/usr/bin/python3
-from Blueprint import Blueprint
-from Generator.Generator import Generator
+from blueprint import Blueprint
+from generator.generator import Generator
 
 
 class StateHeaderGenerator(Generator):
@@ -38,6 +38,6 @@ class State
     %s
 };''' % (add_actions, add_states)
 
-        f = open("Generated/OOP/State.h", "w+")
+        f = open("generated/oop/state.h", "w+")
         f.write(code)
         f.close

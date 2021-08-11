@@ -3,7 +3,7 @@ It is the blueprint used to generated the code.
 """
 from dataclasses import dataclass, field
 from typing import List, Tuple
-from State import State
+from state import State
 
 """ State transition table. First column represents the starting state.
 The rest of the columns represent the state labels where you end up when performing

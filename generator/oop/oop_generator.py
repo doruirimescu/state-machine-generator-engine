@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-from Blueprint import Blueprint
-from Generator.Generator import Generator
-from Generator.OOP.StateHeaderGenerator import StateHeaderGenerator
-from Generator.OOP.StateCppGenerator import statecpp
-from Generator.OOP.StateMachineHeaderGenerator import machineheader
-from Generator.OOP.StateMachineCppGenerator import machinecpp
+from blueprint import Blueprint
+from generator.generator import Generator
+from generator.oop.state_header_generator import StateHeaderGenerator
+from generator.oop.state_cpp_generator import statecpp
+from generator.oop.state_machine_header_generator import machineheader
+from generator.oop.state_machine_cpp_generator import machinecpp
 
 class OOPGenerator(Generator):
     def generate(self, blueprint: Blueprint):

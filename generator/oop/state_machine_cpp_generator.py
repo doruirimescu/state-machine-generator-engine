@@ -64,6 +64,6 @@ int main()
     ptr =&state%s;
     ''' % (add_actions, add_states, add_main, str(states[0].index) )
     code +="\n\treturn 0;\n}"
-    f= open("Generated/OOP/StateMachine.cpp","w+")
+    f= open("generated/oop/StateMachine.cpp","w+")
     f.write(code)
     f.close
