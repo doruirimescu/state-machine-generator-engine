@@ -40,6 +40,6 @@ void State::print()
 {
     cout << this -> label <<' '<< this -> state <<endl;
 }''' % (constructor_code, building_code)
-        f= open("generated/oop/state.cpp","w+")
+        f= open("generated/oop/src/state.cpp","w+")
         f.write(code)
         f.close()

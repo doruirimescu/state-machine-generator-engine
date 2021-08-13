@@ -38,6 +38,6 @@ class State
     %s
 };''' % (add_actions, add_states)
 
-        f = open("generated/oop/state.h", "w+")
+        f = open("generated/oop/include/state.h", "w+")
         f.write(code)
         f.close

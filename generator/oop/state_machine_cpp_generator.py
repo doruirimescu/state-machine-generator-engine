@@ -76,6 +76,6 @@ int main()
     ptr =&state%s;
     ''' % (add_actions, add_states, add_main, str(blueprint.stateList[0].index))
         code += "\n\treturn 0;\n}"
-        f = open("generated/oop/state_machine.cpp", "w+")
+        f = open("generated/oop/src/state_machine.cpp", "w+")
         f.write(code)
         f.close

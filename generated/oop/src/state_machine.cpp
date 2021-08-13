@@ -10,7 +10,7 @@ StateMachine::~StateMachine()
 {
 }
 
-/* Actions */    
+/* Actions */
 void StateMachine::moveLeft()
 {
 	ptr = ptr -> left;
@@ -40,7 +40,7 @@ int StateMachine::getState()
 void StateMachine::input( int input )
 {/* As many inputs as there are blueprint.actions */
     switch( input )
-    {    
+    {
 	case 0:
 		std::cout<<"1"<<std::endl;;
 		break;
@@ -78,29 +78,30 @@ void StateMachine::print()
     cout << "State: " << ptr -> state <<" "<<
         "Label: " << ptr->label <<endl;
 }
+
 /* Main */
-int main()
-{
-    
-	State state0(0,"Menu_1");
-	State state1(1,"Menu_2");
-	State state2(2,"Menu_3");
-	State state3(3,"Menu_1_Feature_1");
-	State state4(4,"Menu_1_Feature_2");
-	State state5(5,"Menu_1_Feature_1_Subfeature_1");
-	State state6(6,"Menu_3_Feature_1");
-	State state7(7,"Menu_2_Feature_1");
-	State state8(8,"Enter_game_1");
-	state0.addLeft(&state1);
-	state0.addDown(&state3);
-	state0.addSelect(&state8);
-	state1.addLeft(&state2);
-	state1.addDown(&state7);
-	state2.addDown(&state6);
-	state3.addLeft(&state4);
-	state3.addDown(&state5);
-    State* ptr;
-    ptr =&state0;
-    
-	return 0;
-}
+// int main()
+// {
+
+// 	State state0(0,"Menu_1");
+// 	State state1(1,"Menu_2");
+// 	State state2(2,"Menu_3");
+// 	State state3(3,"Menu_1_Feature_1");
+// 	State state4(4,"Menu_1_Feature_2");
+// 	State state5(5,"Menu_1_Feature_1_Subfeature_1");
+// 	State state6(6,"Menu_3_Feature_1");
+// 	State state7(7,"Menu_2_Feature_1");
+// 	State state8(8,"Enter_game_1");
+// 	state0.addLeft(&state1);
+// 	state0.addDown(&state3);
+// 	state0.addSelect(&state8);
+// 	state1.addLeft(&state2);
+// 	state1.addDown(&state7);
+// 	state2.addDown(&state6);
+// 	state3.addLeft(&state4);
+// 	state3.addDown(&state5);
+//     State* ptr;
+//     ptr =&state0;
+
+// 	return 0;
+// }
