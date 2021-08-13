@@ -11,9 +11,6 @@ class Code:
     tabs: int = 0
     filename: str = None
 
-    def __add__(self, other):
-        return self.code + other
-
     def printToFile(self):
         pass
 
