@@ -1,6 +1,5 @@
 from generator.generator import Generator
 import unittest
-import pytest
 from blueprint import blueprint
 from generator.procedural.procedural_generator import ProceduralGenerator
 from generator.oop.oop_generator import OOPGenerator
