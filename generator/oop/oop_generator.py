@@ -2,15 +2,21 @@
 from blueprint import Blueprint
 from generator.generator import Generator
 from generator.oop.state_header_generator import StateHeaderGenerator
-from generator.oop.state_cpp_generator import statecpp
-from generator.oop.state_machine_header_generator import machineheader
-from generator.oop.state_machine_cpp_generator import machinecpp
+from generator.oop.state_cpp_generator import StateCppGenerator
+from generator.oop.state_machine_header_generator import StateMachineHeaderGenerator
+from generator.oop.state_machine_cpp_generator import StateMachineCppGenerator
+
 
 class OOPGenerator(Generator):
     def generate(self, blueprint: Blueprint):
         stateHeaderGenerator = StateHeaderGenerator()
         stateHeaderGenerator.generate(blueprint)
 
-        statecpp(blueprint.actions, blueprint.reverseActions)
-        machineheader(blueprint.actions, blueprint.stateList)
-        machinecpp(blueprint.actions, blueprint.stateList)
+        stateCppGenerator = StateCppGenerator()
+        stateCppGenerator.generate(blueprint)
+
+        machineheaderGenerator = StateMachineHeaderGenerator()
+        machineheaderGenerator.generate(blueprint)
+
+        machinecppGenerator = StateMachineCppGenerator()
+        machinecppGenerator.generate(blueprint)

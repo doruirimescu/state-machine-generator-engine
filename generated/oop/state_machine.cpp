@@ -38,7 +38,7 @@ int StateMachine::getState()
 
 /* Input */
 void StateMachine::input( int input )
-{/* As many inputs as there are actions */
+{/* As many inputs as there are blueprint.actions */
     switch( input )
     {    
 	case 0:
