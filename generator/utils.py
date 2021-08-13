@@ -23,16 +23,6 @@ class Code:
             self.code += "\t"
 
 
-@dataclass()
-class FunctionBody:
-    """Custom type to differentiate function body from other strings
-    """
-    body: str
-
-    def __add__(self, other):
-        return self.body + other.body
-
-
 def includeLocalHeader(header_name: str, code: Code):
     code.appendNewLineWithTabs()
     code.code += "#include \"" + header_name + "\""
