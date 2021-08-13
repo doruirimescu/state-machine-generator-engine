@@ -16,8 +16,7 @@ class Code:
 
     def appendNewLineWithTabs(self):
         self.code += "\n"
-        for i in range(1, self.tabs + 1):
-            self.code += "\t"
+        self.code += "\t" * self.tabs
 
 
 def includeLocalHeader(header_name: str, code: Code):
