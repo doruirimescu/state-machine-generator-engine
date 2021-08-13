@@ -1,16 +1,17 @@
- #!/usr/bin/python3
+#!/usr/bin/python3
 from blueprint import Blueprint
 from generator.generator import Generator
 
+
 class StateMachineCppGenerator:
     def generate(self, blueprint: Blueprint):
-        #generate code snippets
+        # generate code snippets
         add_actions = ""
         for a in blueprint.actions:
-            add_actions+="\nvoid StateMachine::move{}()".format(a)
-            add_actions+="\n{"
-            add_actions+="\n\tptr = ptr -> {};".format(a.lower())
-            add_actions+="\n}"
+            add_actions += "\nvoid StateMachine::move{}()".format(a)
+            add_actions += "\n{"
+            add_actions += "\n\tptr = ptr -> {};".format(a.lower())
+            add_actions += "\n}"
 
         add_states = ""
         for s in blueprint.stateList:
@@ -20,12 +21,19 @@ class StateMachineCppGenerator:
 
         add_main = ""
         for s in blueprint.stateList:
-            add_main += s.addNode()
-        for s in blueprint.stateList:
-            add_main += s.addTransition()
+            add_main += '\n\t{Class} state{name}({state},\"{label}\");'.format(
+                Class="State", name=str(s.index),
+                label=s.label, state=str(s.index))
 
-        #generate the code
-        code='''/* ----Generated code---- */
+        for s in blueprint.stateList:
+            transitions =""
+            for action in s.successors:
+                transitions+= "\n\tstate{}.add{}(&state{});".format( str(s.index),
+                                                action, s.successors[ action ] )
+            add_main += transitions
+
+        # generate the code
+        code = '''/* ----Generated code---- */
 #include "state_machine.h"
 using namespace std;
 /*Constructor Destructor*/
@@ -66,8 +74,8 @@ int main()
     %s
     State* ptr;
     ptr =&state%s;
-    ''' % (add_actions, add_states, add_main, str(blueprint.stateList[0].index) )
-        code +="\n\treturn 0;\n}"
-        f= open("generated/oop/state_machine.cpp","w+")
+    ''' % (add_actions, add_states, add_main, str(blueprint.stateList[0].index))
+        code += "\n\treturn 0;\n}"
+        f = open("generated/oop/state_machine.cpp", "w+")
         f.write(code)
         f.close

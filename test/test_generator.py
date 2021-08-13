@@ -1,11 +1,20 @@
+from generator.generator import Generator
 import unittest
+import pytest
 from blueprint import blueprint
 from generator.procedural.procedural_generator import ProceduralGenerator
-
-
+from generator.oop.oop_generator import OOPGenerator
 
 
 class TestProceduralGenerator(unittest.TestCase):
+    def __init__(self, methodName: str) -> None:
+        super().__init__(methodName=methodName)
+        proceduralGenerator = ProceduralGenerator()
+        proceduralGenerator.generate(blueprint)
+
+        oopGenerator = OOPGenerator()
+        oopGenerator.generate(blueprint)
+
     def compareFiles(self, filepath_1, filepath_2):
         f = open(filepath_1, "r+")
         data_1 = f.read()
