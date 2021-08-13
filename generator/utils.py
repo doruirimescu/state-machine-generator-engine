@@ -9,10 +9,12 @@ class Code:
     """
     code: str = ""
     tabs: int = 0
-    filename: str = None
+    path: str = None
 
-    def printToFile(self):
-        pass
+    def saveToFile(self):
+        f = open(self.path, "w+")
+        f.write(self.code)
+        f.close
 
     def appendNewLineWithTabs(self):
         self.code += "\n"
@@ -34,7 +36,6 @@ def includeGlobalHeader(header_name: str, code: Code):
 def oneLineComment(comment_text: str, code: Code):
     code.appendNewLineWithTabs()
     code.code += "/* " + comment_text + " */"
-
 
 
 @dataclass()
@@ -141,7 +142,9 @@ class Class:
         code.tabs = 0
 
 
-code = Code("#include \"lal\"")
+path = "testing.txt"
+code = Code("#include \"lal\"", 0, path)
+
 f = Function("void", "daiNarcotica", ["int lal", "string fac"], "This function os wild")
 g = Function("int", "daiNarcotica", ["int lal", "string fac"], "This function os wild")
 f.declare(code)
@@ -157,3 +160,5 @@ c.declare(code)
 includeGlobalHeader("New", code)
 oneLineComment("lal", code)
 print(code.code)
+
+code.saveToFile()
