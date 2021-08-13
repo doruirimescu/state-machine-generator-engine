@@ -3,7 +3,7 @@
 #!/usr/bin/python3
 from blueprint import blueprint
 from generator.oop.oop_generator import OOPGenerator
-from generator.procedural.ProceduralGenerator import ProceduralGenerator
+from generator.procedural.procedural_generator import ProceduralGenerator
 from enum import Enum
 
 class Modes(Enum):
