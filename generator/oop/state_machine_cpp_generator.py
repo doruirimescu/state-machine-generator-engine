@@ -11,6 +11,7 @@ class StateMachineCppGenerator:
             add_actions += "\nvoid StateMachine::move{}()".format(a)
             add_actions += "\n{"
             add_actions += "\n\tptr = ptr -> {};".format(a.lower())
+            add_actions += "\n\tinput(ptr->state);"
             add_actions += "\n}"
 
         add_states = ""
@@ -19,30 +20,32 @@ class StateMachineCppGenerator:
             add_states += "\n\t\t{};".format(s.output)
             add_states += "\n\t\tbreak;"
 
-        add_main = ""
+        add_constructor = ""
         for s in blueprint.stateList:
-            add_main += '\n\t{Class} state{name}({state},\"{label}\");'.format(
-                Class="State", name=str(s.index),
+            add_constructor += '\n\tstate{name} = new State({state},\"{label}\");'.format(name=str(s.index),
                 label=s.label, state=str(s.index))
+        add_destructor = ""
+        for s in blueprint.stateList:
+            add_destructor += '\n\tdelete state{name};'.format(name=str(s.index))
 
         for s in blueprint.stateList:
             transitions =""
             for action in s.successors:
-                transitions+= "\n\tstate{}.add{}(&state{});".format( str(s.index),
+                transitions+= "\n\tstate{}->add{}(state{});".format( str(s.index),
                                                 action, s.successors[ action ] )
-            add_main += transitions
+            add_constructor += transitions
 
         # generate the code
         code = '''/* ----Generated code---- */
 #include "state_machine.h"
 using namespace std;
 /*Constructor Destructor*/
-StateMachine::StateMachine(State* ptr)
-{
-    this->ptr = ptr;
+StateMachine::StateMachine()
+{%s
+    this->ptr = state%s;
 }
 StateMachine::~StateMachine()
-{
+{%s
 }
 
 /* Actions */\
@@ -67,15 +70,7 @@ void StateMachine::print()
 {
     cout << "State: " << ptr -> state <<" "<<
         "Label: " << ptr->label <<endl;
-}
-/* Main */
-int main()
-{
-    %s
-    State* ptr;
-    ptr =&state%s;
-    ''' % (add_actions, add_states, add_main, str(blueprint.stateList[0].index))
-        code += "\n\treturn 0;\n}"
+}''' % (add_constructor, str(blueprint.stateList[0].index), add_destructor, add_actions, add_states)
         f = open("generated/oop/src/state_machine.cpp", "w+")
         f.write(code)
         f.close

@@ -10,6 +10,10 @@ class StateMachineHeaderGenerator(Generator):
         for a in blueprint.actions:
             add_actions +="\n\tvoid move" + a + "();"
 
+        add_state_pointers = ""
+        for s in blueprint.stateList:
+            add_state_pointers += "\tState* state" + str(s.index) + ";\n"
+
         code='''/* ----Generated code---- */
 #pragma once
 #include \"state.h\"
@@ -18,7 +22,7 @@ class StateMachine
 {
 \tpublic:
 \t/*---------------Constructor Destructor---------------*/
-\tStateMachine( State * ptr );
+\tStateMachine();
 \t~StateMachine();\n
 \t/*---------------Methods---------------*/
 
@@ -34,7 +38,8 @@ class StateMachine
 
 \t/*-------------Members--------------*/
 \tState * ptr;
-};''' % add_actions
+%s
+};''' % (add_actions, add_state_pointers)
         f= open("generated/oop/include/state_machine.h","w+")
         f.write(code)
         f.close
