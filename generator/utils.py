@@ -43,6 +43,7 @@ class Function:
     return_type: str
     name: str
     arguments_list: List[str]
+    body: str
     comment: str = None
     arguments: str = field(init=False)
 
@@ -57,11 +58,19 @@ class Function:
         code.code += self.return_type + " " + self.name + "(" + self.arguments+");"
         code.code += "\n"
 
-    def define(self, body, code):
+    def define(self, code: Code, className=None):
         code.code += "\n"
-        code.code += "\n" + self.return_type + " " + self.name + "(" + self.arguments+")"
+        if className:
+            to_append = className + "::"
+        else:
+            to_append = ""
+        code.code += "\n" + self.return_type + " " + to_append + self.name + "(" + self.arguments+")"
+
         code.code += "\n{"
-        code.code += body
+        code.tabs = 1
+        code.appendNewLineWithTabs()
+        code.tabs = 0
+        code.code += self.body
         code.code += "\n}"
         code.code += "\n"
 
@@ -87,6 +96,9 @@ class Method:
 
     def declare(self, code):
         return self.method.declare(code)
+
+    def define(self, code, className=None):
+        self.method.define(code, className)
 
 
 @dataclass()
@@ -141,24 +153,29 @@ class Class:
                 method.declare(code)
         code.tabs = 0
 
+    def define(self, code: Code):
+        for method in self.methods:
+            code.appendNewLineWithTabs()
+            method.define(code, self.name)
+
+
+func = Function("void", "fun", ["int lal", "string fac"], "int x = 1;",
+                "This function is a wild fun")
+other_func = Function("int", "otherFunc", ["int lal", "string fac"],
+                      "int* y = new int(2);", "This function is other")
+m = Method(func, AccessSpecifier.PUBLIC)
+my_class = Class("MyClass", [Method(func, AccessSpecifier.PUBLIC), Method(
+    other_func, AccessSpecifier.PRIVATE)], "Beautiful class")
 
 path = "testing.txt"
 code = Code("#include \"lal\"", 0, path)
-
-f = Function("void", "daiNarcotica", ["int lal", "string fac"], "This function os wild")
-g = Function("int", "daiNarcotica", ["int lal", "string fac"], "This function os wild")
-f.declare(code)
-generateBrief(code, "this is nice")
-oneLineComment("comm", code)
-
-m = Method(f, AccessSpecifier.PUBLIC)
-c = Class("MyClass", [Method(f, AccessSpecifier.PUBLIC), Method(g, AccessSpecifier.PRIVATE)], "Beautiful class")
-
-c.declare(code)
+func.declare(code)
+my_class.declare(code)
+my_class.define(code)
 
 # code.tabs = 1
 includeGlobalHeader("New", code)
 oneLineComment("lal", code)
 print(code.code)
 
-code.saveToFile()
+#code.saveToFile()
