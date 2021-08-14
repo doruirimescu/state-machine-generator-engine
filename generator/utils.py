@@ -5,28 +5,6 @@ from enum import Enum
 
 
 
-def oneLineComment(comment_text: str, code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "/* " + comment_text + " */"
-
-
-@dataclass()
-class Type:
-    name: str
-    label: str
-
-    def declare(self, code: Code):
-        code.appendNewLineWithTabs()
-        code.code += self.name + " " + self.label + ";"
-
-    def assign(self, value: str, code: Code):
-        code.appendNewLineWithTabs()
-        code.code += self.label + " = " + value + ";"
-
-    def asParameter(self):
-        return self.name + " " + self.label
-
-
 @dataclass()
 class Function:
     return_type: str
@@ -76,12 +54,7 @@ class Function:
         code.code += object + self.name + "(" + ", ".join(args) + ");"
 
 
-def generateBrief(code, comment):
-    code.code += '''
-/**
- * @brief %s
- *
- */\n''' % (comment)
+
 
 
 class AccessSpecifier(Enum):

@@ -26,31 +26,31 @@ class TestProceduralGenerator(unittest.TestCase):
         self.assertEqual(data_1, data_2)
 
     def test_ProceduralGeneratorHeader(self):
-        test_path = "test/test_files/procedural/header.h"
+        test_path = "tests/test_files/procedural/header.h"
         generated_path = "generated/procedural/header.h"
         self.compareFiles(test_path, generated_path)
 
     def test_ProceduralGeneratorSource(self):
-        test_path = "test/test_files/procedural/source.cpp"
+        test_path = "tests/test_files/procedural/source.cpp"
         generated_path = "generated/procedural/source.cpp"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateHeader(self):
-        test_path = "test/test_files/oop/include/state.h"
+        test_path = "tests/test_files/oop/include/state.h"
         generated_path = "generated/oop/include/state.h"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateSource(self):
-        test_path = "test/test_files/oop/src/state.cpp"
+        test_path = "tests/test_files/oop/src/state.cpp"
         generated_path = "generated/oop/src/state.cpp"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateMachineHeader(self):
-        test_path = "test/test_files/oop/include/state_machine.h"
+        test_path = "tests/test_files/oop/include/state_machine.h"
         generated_path = "generated/oop/include/state_machine.h"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateMachineSource(self):
-        test_path = "test/test_files/oop/src/state_machine.cpp"
+        test_path = "tests/test_files/oop/src/state_machine.cpp"
         generated_path = "generated/oop/src/state_machine.cpp"
         self.compareFiles(test_path, generated_path)
