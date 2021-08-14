@@ -33,16 +33,27 @@ def includeGlobalHeader(header_name: str, code: Code):
     return code
 
 
+def pragmaOnce(code: Code):
+    code.appendNewLineWithTabs()
+    code.code += "#pragma once"
+
+
+def usingNamespace(namespace, code: Code):
+    code.appendNewLineWithTabs()
+    code.code += "using namespace " + namespace + ";"
+
+
 def oneLineComment(comment_text: str, code: Code):
     code.appendNewLineWithTabs()
     code.code += "/* " + comment_text + " */"
+
 
 @dataclass()
 class Type:
     name: str
     label: str
 
-    def define(self, code: Code):
+    def declare(self, code: Code):
         code.appendNewLineWithTabs()
         code.code += self.name + " " + self.label + ";"
 
@@ -52,34 +63,39 @@ class Type:
 
     def asParameter(self):
         return self.name + " " + self.label
+
+
 @dataclass()
 class Function:
     return_type: str
     name: str
-    arguments_list: List[str]
-    body: str
+    parameters_list: List[Type]
+    body: str = ""
     comment: str = None
-    arguments: str = field(init=False)
+    parameters: str = field(init=False)
 
     def __post_init__(self):
-        self.arguments = ", ".join([i for i in self.arguments_list])
+        self.parameters = ", ".join([i.asParameter() for i in self.parameters_list])
 
     def declare(self, code: Code):
-        code.code += "\n"
         if self.comment is not None:
+            code.code += "\n"
             oneLineComment(self.comment, code)
         code.appendNewLineWithTabs()
-        code.code += self.return_type + " " + self.name + "(" + self.arguments+");"
-        code.code += "\n"
+        code.code += self.return_type + " " + self.name + "(" + self.parameters+");"
 
-    def define(self, code: Code, className=None):
+
+    def define(self, code: Code, class_name=None):
         code.code += "\n"
-        if className:
-            to_append = className + "::"
+        if class_name:
+            to_append = class_name + "::"
         else:
             to_append = ""
-        code.code += "\n" + self.return_type + " " + to_append + self.name + "(" + self.arguments+")"
 
+        if self.return_type is not "":
+            self.return_type += " "
+
+        code.code += "\n" + self.return_type + to_append + self.name + "(" + self.parameters+")"
         code.code += "\n{"
         code.tabs = 1
         code.appendNewLineWithTabs()
@@ -87,6 +103,15 @@ class Function:
         code.code += self.body
         code.code += "\n}"
         code.code += "\n"
+
+    def call(self, args: List, code: Code, object_type: Type = None):
+        if len(args) != len(self.parameters_list):
+            raise ValueError("Wrong number of arguments")
+        code.appendNewLineWithTabs()
+
+        if object_type is not None:
+            object = object_type.label + "."
+        code.code += object + self.name + "(" + ", ".join(args) + ");"
 
 
 def generateBrief(code, comment):
@@ -104,6 +129,15 @@ class AccessSpecifier(Enum):
 
 
 @dataclass()
+class Member:
+    member: Type
+    access_specifier: AccessSpecifier = AccessSpecifier.PRIVATE
+
+    def declare(self, code):
+        self.member.declare(code)
+
+
+@dataclass()
 class Method:
     method: Function
     access_specifier: AccessSpecifier = AccessSpecifier.PRIVATE
@@ -111,14 +145,18 @@ class Method:
     def declare(self, code):
         return self.method.declare(code)
 
-    def define(self, code, className=None):
-        self.method.define(code, className)
+    def define(self, code, class_name=None):
+        self.method.define(code, class_name)
+
+    def call(self, args: List, code, object_type: Type):
+        self.method.call(args, code, object_type)
 
 
 @dataclass()
 class Class:
     name: str
     methods: List[Method]
+    members: List[Member]
     comment: str = None
 
     def declare(self, code: Code):
@@ -126,43 +164,54 @@ class Class:
         generateBrief(code, self.comment)
         code.code += "class " + self.name + ":"
         code.code += "\n{"
-        self._declarePublicProtectedPrivate(code)
+
+        self._declarePublicProtectedPrivateMethods(code)
+
         code.code += "\n};"
         code.code += "\n"
         return code
 
-    def _groupMethodsBasedOnAccessSpecifiers(self):
-        """Groups the methods into public, protected and private methods
+    def _groupBasedOnAccessSpecifiers(self, to_group):
+        """Groups to_group into public, protected and private (methods or members)
 
         Returns:
-            Tuple[List[Method], List[Method], List[Method]]: tuple of lists of methods
+            Tuple[List, List, List]: tuple of lists of methods or members
         """
-        public: List[Method] = list()
-        private: List[Method] = list()
-        protected: List[Method] = list()
+        public = list()
+        private = list()
+        protected = list()
 
-        for method in self.methods:
-            if method.access_specifier == AccessSpecifier.PUBLIC:
-                public.append(method)
-            elif method.access_specifier == AccessSpecifier.PRIVATE:
-                private.append(method)
-            elif method.access_specifier == AccessSpecifier.PROTECTED:
-                protected.append(method)
+        for item in to_group:
+            if item.access_specifier == AccessSpecifier.PUBLIC:
+                public.append(item)
+            elif item.access_specifier == AccessSpecifier.PRIVATE:
+                private.append(item)
+            elif item.access_specifier == AccessSpecifier.PROTECTED:
+                protected.append(item)
         return (public, protected, private)
 
-    def _declarePublicProtectedPrivate(self, code):
-        public, protected, private = self._groupMethodsBasedOnAccessSpecifiers()
+    def _declarePublicProtectedPrivateMethods(self, code):
+        public, protected, private = self._groupBasedOnAccessSpecifiers(self.methods)
+        public_members, protected_members, private_members = self._groupBasedOnAccessSpecifiers(self.members)
+        print(public_members, protected_members, private_members)
+
         code.tabs = 1
-        if public:
+        if public or public_members:
             code.code += "\npublic:"
+            for member in public_members:
+                member.declare(code)
             for method in public:
                 method.declare(code)
-        if private:
+        if private or private_members:
             code.code += "\nprivate:"
+            for member in private_members:
+                member.declare(code)
             for method in private:
                 method.declare(code)
-        if protected:
+        if protected or protected_members:
             code.code += "\nprotected:"
+            for member in protected_members:
+                member.declare(code)
             for method in protected:
                 method.declare(code)
         code.tabs = 0
@@ -173,27 +222,60 @@ class Class:
             method.define(code, self.name)
 
 
-func = Function("void", "fun", ["int lal", "string fac"], "int x = 1;",
+def switchCase(expression, list_of_codes_for_each_case, code: Code):
+    code.appendNewLineWithTabs()
+    code.code += "switch(" + expression + ")"
+    code.appendNewLineWithTabs()
+    code.code += "{"
+    code.tabs += 1
+
+    for body in list_of_codes_for_each_case:
+        code.appendNewLineWithTabs()
+        code.code += "case " + body[0] + ":"
+        code.tabs += 1
+
+        for i in range(1, len(body)):
+            code.appendNewLineWithTabs()
+            code.code += body[i]
+
+        code.appendNewLineWithTabs()
+        code.code += "break;"
+        code.tabs -= 1
+
+    code.appendNewLineWithTabs()
+    code.code += "default:"
+    code.appendNewLineWithTabs()
+    code.code += "\tbreak;"
+    code.tabs -= 1
+
+    code.appendNewLineWithTabs()
+    code.code += "}"
+
+
+func = Function("void", "fun", [Type("int", "lal"), Type("string", "fac")], "int x = 1;",
                 "This function is a wild fun")
-other_func = Function("int", "otherFunc", ["int lal", "string fac"],
+other_func = Function("int", "otherFunc", [Type("int", "lal"), Type("string", "fac")],
                       "int* y = new int(2);", "This function is other")
+constructor = Method(Function("", "Myclass", [Type("int", "leb"), Type("string", "falol")], ""), AccessSpecifier.PUBLIC)
+
 m = Method(func, AccessSpecifier.PUBLIC)
 my_class = Class("MyClass", [Method(func, AccessSpecifier.PUBLIC), Method(
-    other_func, AccessSpecifier.PRIVATE)], "Beautiful class")
+    other_func, AccessSpecifier.PRIVATE), constructor], [Member(Type("int* ", "myTyppa")), Member(Type("int", "myTyppB"))], "Beautiful class")
 
 path = "testing.txt"
-code = Code("#include \"lal\"", 0, path)
-func.declare(code)
-my_class.declare(code)
-my_class.define(code)
+code = Code("", 0, path)
+switchCase("expr", [["label1", "int a = 3;", "int b = 3;"]], code)
 
-# code.tabs = 1
-includeGlobalHeader("New", code)
-oneLineComment("lal", code)
+# pragmaOnce(code)
+# includeGlobalHeader("iostream", code)
+# includeGlobalHeader("string", code)
+# usingNamespace("std", code)
 
-t = Type("int", "arg")
-t.define(code)
-t.assign("23", code)
+# state_class_methods = [Method(Function("", "State", [Type("int", "state"), Type("string", "label")]), AccessSpecifier.PUBLIC),
+#                        Method(Function("", "~State", []), AccessSpecifier.PUBLIC),
+#                        Method(Function("void", "addLeft", [Type("State*", "s")]), AccessSpecifier.PUBLIC),
+#                        Method(Function("void", "addRight", [Type("State*", "s")]), AccessSpecifier.PUBLIC)]
+# state_class_members = []
+# state = Class("State", state_class_methods, state_class_members)
+# state.declare(code)
 print(code.code)
-print(t.asParameter())
-#code.saveToFile()
