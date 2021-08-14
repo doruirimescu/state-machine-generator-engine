@@ -26,7 +26,3 @@ def generateBrief(code: Code, brief: str, params, returned):
 def oneLineComment(comment_text: str, code: Code):
     code.appendNewLineWithTabs()
     code.code += "/* " + comment_text + " */"
-
-code = Code("")
-generateBrief(code, "this is brief", ["bool smth: true if some, false otherwise"], ["int returns: return good stuff"])
-print(code.code)

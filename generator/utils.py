@@ -1,9 +1,5 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict
-from enum import Enum
-
-
-
 
 @dataclass()
 class Function:
@@ -52,16 +48,6 @@ class Function:
         if object_type is not None:
             object = object_type.label + "."
         code.code += object + self.name + "(" + ", ".join(args) + ");"
-
-
-
-
-
-class AccessSpecifier(Enum):
-    PUBLIC = "public",
-    PRIVATE = "private",
-    PROTECTED = "protected"
-
 
 @dataclass()
 class Member:
@@ -155,36 +141,6 @@ class Class:
         for method in self.methods:
             code.appendNewLineWithTabs()
             method.define(code, self.name)
-
-
-def switchCase(expression, list_of_codes_for_each_case, code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "switch(" + expression + ")"
-    code.appendNewLineWithTabs()
-    code.code += "{"
-    code.tabs += 1
-
-    for body in list_of_codes_for_each_case:
-        code.appendNewLineWithTabs()
-        code.code += "case " + body[0] + ":"
-        code.tabs += 1
-
-        for i in range(1, len(body)):
-            code.appendNewLineWithTabs()
-            code.code += body[i]
-
-        code.appendNewLineWithTabs()
-        code.code += "break;"
-        code.tabs -= 1
-
-    code.appendNewLineWithTabs()
-    code.code += "default:"
-    code.appendNewLineWithTabs()
-    code.code += "\tbreak;"
-    code.tabs -= 1
-
-    code.appendNewLineWithTabs()
-    code.code += "}"
 
 
 func = Function("void", "fun", [Type("int", "lal"), Type("string", "fac")], "int x = 1;",
