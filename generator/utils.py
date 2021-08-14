@@ -37,7 +37,21 @@ def oneLineComment(comment_text: str, code: Code):
     code.appendNewLineWithTabs()
     code.code += "/* " + comment_text + " */"
 
+@dataclass()
+class Type:
+    name: str
+    label: str
 
+    def define(self, code: Code):
+        code.appendNewLineWithTabs()
+        code.code += self.name + " " + self.label + ";"
+
+    def assign(self, value: str, code: Code):
+        code.appendNewLineWithTabs()
+        code.code += self.label + " = " + value + ";"
+
+    def asParameter(self):
+        return self.name + " " + self.label
 @dataclass()
 class Function:
     return_type: str
@@ -176,6 +190,10 @@ my_class.define(code)
 # code.tabs = 1
 includeGlobalHeader("New", code)
 oneLineComment("lal", code)
-print(code.code)
 
+t = Type("int", "arg")
+t.define(code)
+t.assign("23", code)
+print(code.code)
+print(t.asParameter())
 #code.saveToFile()
