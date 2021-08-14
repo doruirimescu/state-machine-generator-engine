@@ -3,44 +3,6 @@ from typing import List, Optional, Dict
 from enum import Enum
 
 
-@dataclass()
-class Code:
-    """Custom type to differentiate code from other strings
-    """
-    code: str = ""
-    tabs: int = 0
-    path: str = None
-
-    def saveToFile(self):
-        f = open(self.path, "w+")
-        f.write(self.code)
-        f.close
-
-    def appendNewLineWithTabs(self):
-        self.code += "\n"
-        self.code += "\t" * self.tabs
-
-
-def includeLocalHeader(header_name: str, code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "#include \"" + header_name + "\""
-    return code
-
-
-def includeGlobalHeader(header_name: str, code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "#include <" + header_name + ">"
-    return code
-
-
-def pragmaOnce(code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "#pragma once"
-
-
-def usingNamespace(namespace, code: Code):
-    code.appendNewLineWithTabs()
-    code.code += "using namespace " + namespace + ";"
 
 
 def oneLineComment(comment_text: str, code: Code):
