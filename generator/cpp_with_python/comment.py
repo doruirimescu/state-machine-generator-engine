@@ -16,7 +16,9 @@ class Brief:
         for param in self.params_and_description_list:
             param_code += "\n * @param " + param
 
-        returned_code = "\n * @return " + self.returned_description
+        returned_code = ""
+        if(self.returned_description):
+            returned_code = "\n * @return " + self.returned_description
 
         code.code += brief_code + param_code + returned_code
         code.code += "\n */"

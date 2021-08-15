@@ -6,7 +6,6 @@ from typing import List
 @dataclass()
 class EnumClass(Type):
     enumerator_list: List[str]
-    code: Code
 
     def declare(self, code: Code):
         code.appendNewLineWithTabs()
@@ -20,7 +19,7 @@ class EnumClass(Type):
         code.code = code.code.rstrip(",")
         code.tabs -= 1
         code.appendNewLineWithTabs()
-        code.code += "}"
+        code.code += "};"
 
     def assign(self, value: str, code: Code):
         if value not in self.enumerator_list:
