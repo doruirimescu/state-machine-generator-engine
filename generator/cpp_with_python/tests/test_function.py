@@ -21,7 +21,8 @@ class TestFunction(unittest.TestCase):
  * @param int: Y coordinate
  * @return calculated euclidean distance
  */
-void calcDistance(int x, int y);''')
+void calcDistance(int x, int y);
+''')
 
     def test_function_define(self):
 
@@ -29,4 +30,4 @@ void calcDistance(int x, int y);''')
 
         code = Code("")
         f.define(code)
-        self.assertEqual(code.code, "\n\nvoid calcDistance(int x, int y)\n{\n\treturn sqrt(x^2 + y^2);\n}\n")
+        self.assertEqual(code.code, "\nvoid calcDistance(int x, int y)\n{\n\treturn sqrt(x^2 + y^2);\n}\n")

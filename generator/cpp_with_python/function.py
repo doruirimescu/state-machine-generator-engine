@@ -23,9 +23,9 @@ class Function:
             self.brief.generate(code)
         code.appendNewLineWithTabs()
         code.code += self.return_type + " " + self.name + "(" + self.parameters+");"
+        code.appendNewLineWithTabs()
 
     def define(self, code: Code, class_name=None):
-        code.code += "\n"
         if class_name:
             to_append = class_name + "::"
         else:
@@ -33,15 +33,19 @@ class Function:
 
         if self.return_type is not "":
             self.return_type += " "
-
-        code.code += "\n" + self.return_type + to_append + self.name + "(" + self.parameters+")"
-        code.code += "\n{"
-        code.tabs = 1
         code.appendNewLineWithTabs()
-        code.tabs = 0
-        code.code += self.body
-        code.code += "\n}"
-        code.code += "\n"
+        code.code += self.return_type + to_append + self.name + "(" + self.parameters+")"
+        code.appendNewLineWithTabs()
+        code.code += "{"
+        splits = self.body.split("\n")
+        code.tabs += 1
+        for split in splits:
+            code.appendNewLineWithTabs()
+            code.code += split
+        code.tabs -= 1
+        code.appendNewLineWithTabs()
+        code.code += "}"
+        code.appendNewLineWithTabs()
 
     def call(self, args: List, code: Code, object_type: Type = None):
         if len(args) != len(self.parameters_list):
@@ -51,13 +55,3 @@ class Function:
         if object_type is not None:
             object = object_type.label + "."
         code.code += object + self.name + "(" + ", ".join(args) + ");"
-
-
-b = Brief("This function calculates 2D euclidean distance", [
-          "int: X coordinate", "int: Y coordinate"], "calculated euclidean distance")
-f = Function("void", "calcDistance", [Type("int", "x"), Type("int", "y")], "return sqrt(x^2 + y^2);", b)
-
-code = Code("")
-f.declare(code)
-f.define(code)
-print(code.code)

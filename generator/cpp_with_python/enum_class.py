@@ -26,3 +26,8 @@ class EnumClass(Type):
             raise ValueError("Value not in enum")
         code.appendNewLineWithTabs()
         code.code += self.label + " = " + self.name + "::" + value + ";"
+
+    def getEnumerator(self, value: str):
+        if value not in self.enumerator_list:
+            raise ValueError("Value not in enum")
+        return self.name + "::" + value
