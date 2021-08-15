@@ -27,13 +27,13 @@ class TestProceduralGenerator(unittest.TestCase):
         self.assertEqual(data_1, data_2)
 
     def test_ProceduralGeneratorHeader(self):
-        test_path = "test/test_files/procedural/header.h"
-        generated_path = "generated/procedural/header.h"
+        test_path = "tests/test_files/procedural/header.h"
+        generated_path = "generated/procedural/include/header.h"
         self.compareFiles(test_path, generated_path)
 
     def test_ProceduralGeneratorSource(self):
-        test_path = "test/test_files/procedural/source.cpp"
-        generated_path = "generated/procedural/source.cpp"
+        test_path = "tests/test_files/procedural/source.cpp"
+        generated_path = "generated/procedural/src/source.cpp"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateHeader(self):

@@ -24,8 +24,6 @@ target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-
-
 enable_testing()
 
 FILE(GLOB TESTFILES test/*.cpp)
