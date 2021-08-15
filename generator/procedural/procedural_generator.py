@@ -51,7 +51,7 @@ StateLabel performTransition(StateLabel current_state, Action action);
 
 ''' % (add_states, add_actions, add_outputs)
 
-        f = open("generated/procedural/header.h", "w+")
+        f = open("generated/procedural/include/header.h", "w+")
         f.write(code)
         f.close
 
@@ -102,6 +102,6 @@ StateLabel performTransition(StateLabel current_state, Action action)
 }
 ''' % ( add_outputs, add_onEntry, add_Transitions )
 
-        f= open("generated/procedural/source.cpp","w+")
+        f= open("generated/procedural/src/source.cpp","w+")
         f.write(code)
         f.close
