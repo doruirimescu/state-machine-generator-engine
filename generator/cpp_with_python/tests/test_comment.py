@@ -8,11 +8,12 @@ class TestComment(unittest.TestCase):
         oneLineComment("comm", code)
         self.assertEqual(code.code, "\n/* comm */")
 
-    def test_brief(self):
+    def test_BriefClass(self):
         code = Code("")
-        generateBrief(code, "this is brief", ["bool smth: true if some, false otherwise"], ["int returns: return good stuff"])
-        self.assertEqual(code.code,'''\n/**
- * @brief this is brief
- * @param bool smth: true if some, false otherwise
- * @return int returns: return good stuff
+        b = Brief("This function does smth", ["bool a: True if a, False if not a"], "int val: The calculated value")
+        b.generate(code)
+        self.assertEqual(code.code, '''\n/**
+ * @brief This function does smth
+ * @param bool a: True if a, False if not a
+ * @return int val: The calculated value
  */''')
