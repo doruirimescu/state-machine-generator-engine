@@ -10,7 +10,7 @@ class Modes(Enum):
     OOP = 1
     PROCEDURAL = 2
 
-SELECTED_MODE = Modes.OOP
+SELECTED_MODE = Modes.PROCEDURAL
 
 if SELECTED_MODE == Modes.OOP:
     gen = OOPGenerator()

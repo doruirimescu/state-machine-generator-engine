@@ -12,10 +12,7 @@ class StateCppGenerator(Generator):
         for index, a in enumerate(blueprint.actions):
                 building_code += "\nvoid State::add%s( State* s)\n{" % str(a)
                 building_code +="\n\tthis -> "+str(a).lower()+" = s;"
-                if blueprint.reverseActions[ index ] is not -1:
-                    building_code += "\n\ts -> %s = this;\n}\n" % str(blueprint.reverseActions[index]).lower()
-                else:
-                    building_code += "\n}"
+                building_code += "\n}"
 
         code ='''/* ----Generated code---- */
 #include \"state.h\"

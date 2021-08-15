@@ -17,10 +17,16 @@ StateMachine::StateMachine()
 	state0->addDown(state3);
 	state0->addSelect(state8);
 	state1->addLeft(state2);
+	state1->addRight(state0);
 	state1->addDown(state7);
+	state2->addRight(state1);
 	state2->addDown(state6);
 	state3->addLeft(state4);
+	state3->addUp(state0);
 	state3->addDown(state5);
+	state4->addRight(state3);
+	state6->addUp(state2);
+	state7->addUp(state1);
     this->ptr = state0;
 }
 StateMachine::~StateMachine()

@@ -123,6 +123,12 @@ StateLabel performTransition(StateLabel current_state, Action action)
 			onStateEntry(next_state);
 			return next_state;
 		}
+		else if(action == Action::Right)
+		{
+			StateLabel next_state = StateLabel::Menu_1;
+			onStateEntry(next_state);
+			return next_state;
+		}
 		else if(action == Action::Down)
 		{
 			StateLabel next_state = StateLabel::Menu_2_Feature_1;
@@ -132,7 +138,13 @@ StateLabel performTransition(StateLabel current_state, Action action)
 	}
 	else if(current_state == StateLabel::Menu_3)
 	{
-		if(action == Action::Down)
+		if(action == Action::Right)
+		{
+			StateLabel next_state = StateLabel::Menu_2;
+			onStateEntry(next_state);
+			return next_state;
+		}
+		else if(action == Action::Down)
 		{
 			StateLabel next_state = StateLabel::Menu_3_Feature_1;
 			onStateEntry(next_state);
@@ -147,6 +159,12 @@ StateLabel performTransition(StateLabel current_state, Action action)
 			onStateEntry(next_state);
 			return next_state;
 		}
+		else if(action == Action::Up)
+		{
+			StateLabel next_state = StateLabel::Menu_1;
+			onStateEntry(next_state);
+			return next_state;
+		}
 		else if(action == Action::Down)
 		{
 			StateLabel next_state = StateLabel::Menu_1_Feature_1_Subfeature_1;
@@ -156,15 +174,33 @@ StateLabel performTransition(StateLabel current_state, Action action)
 	}
 	else if(current_state == StateLabel::Menu_1_Feature_2)
 	{
+		if(action == Action::Right)
+		{
+			StateLabel next_state = StateLabel::Menu_1_Feature_1;
+			onStateEntry(next_state);
+			return next_state;
+		}
 	}
 	else if(current_state == StateLabel::Menu_1_Feature_1_Subfeature_1)
 	{
 	}
 	else if(current_state == StateLabel::Menu_3_Feature_1)
 	{
+		if(action == Action::Up)
+		{
+			StateLabel next_state = StateLabel::Menu_3;
+			onStateEntry(next_state);
+			return next_state;
+		}
 	}
 	else if(current_state == StateLabel::Menu_2_Feature_1)
 	{
+		if(action == Action::Up)
+		{
+			StateLabel next_state = StateLabel::Menu_2;
+			onStateEntry(next_state);
+			return next_state;
+		}
 	}
 	else if(current_state == StateLabel::Enter_game_1)
 	{
