@@ -35,16 +35,12 @@ class Function:
             self.return_type += " "
         code.appendNewLineWithTabs()
         code.code += self.return_type + to_append + self.name + "(" + self.parameters+")"
-        code.appendNewLineWithTabs()
-        code.code += "{"
+        code.startCodeBlock()
         splits = self.body.split("\n")
-        code.tabs += 1
         for split in splits:
             code.appendNewLineWithTabs()
             code.code += split
-        code.tabs -= 1
-        code.appendNewLineWithTabs()
-        code.code += "}"
+        code.finishCodeBlock()
         code.appendNewLineWithTabs()
 
     def call(self, args: List, code: Code, object_type: Type = None):

@@ -10,16 +10,13 @@ class EnumClass(Type):
     def declare(self, code: Code):
         code.appendNewLineWithTabs()
         code.code += "enum class " + self.name
-        code.appendNewLineWithTabs()
-        code.code += "{"
-        code.tabs += 1
+        code.startCodeBlock()
         for label in self.enumerator_list:
             code.appendNewLineWithTabs()
             code.code += label + ","
         code.code = code.code.rstrip(",")
-        code.tabs -= 1
-        code.appendNewLineWithTabs()
-        code.code += "};"
+        code.finishCodeBlock()
+        code.code +=";"
 
     def assign(self, value: str, code: Code):
         if value not in self.enumerator_list:

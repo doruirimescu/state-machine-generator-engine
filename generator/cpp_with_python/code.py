@@ -17,3 +17,13 @@ class Code:
     def appendNewLineWithTabs(self):
         self.code += "\n"
         self.code += "\t" * self.tabs
+
+    def startCodeBlock(self):
+        self.appendNewLineWithTabs()
+        self.code += "{"
+        self.tabs += 1
+
+    def finishCodeBlock(self):
+        self.tabs -= 1
+        self.appendNewLineWithTabs()
+        self.code += "}"
