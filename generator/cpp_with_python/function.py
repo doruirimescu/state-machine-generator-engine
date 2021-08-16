@@ -43,11 +43,16 @@ class Function:
         code.finishCodeBlock()
         code.appendNewLineWithTabs()
 
-    def call(self, args: List, code: Code, object_type: Type = None):
+    def call(self, args: List, code: Code = None, object_type: Type = None):
+        if code is None:
+            code = Code("")
+
         if len(args) != len(self.parameters_list):
             raise ValueError("Wrong number of arguments")
         code.appendNewLineWithTabs()
 
+        object = ""
         if object_type is not None:
             object = object_type.label + "."
         code.code += object + self.name + "(" + ", ".join(args) + ");"
+        return code.code

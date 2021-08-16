@@ -9,9 +9,12 @@ class Type:
     name: str
     label: str
 
-    def declare(self, code: Code):
+    def declare(self, code: Code = None):
+        if code is None:
+            code = Code("")
         code.appendNewLineWithTabs()
         code.code += self.name + " " + self.label + ";"
+        return code.code
 
     def assign(self, value: str, code: Code):
         code.appendNewLineWithTabs()

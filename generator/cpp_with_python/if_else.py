@@ -22,11 +22,6 @@ def ifElse(conditions_list: List, code_to_execute_for_each_condition_list: List,
             code.code += "else if"
         code.code += "(" + condition + ")"
         code.startCodeBlock()
-        code.appendNewLineWithTabs()
+        #code.appendNewLineWithTabs()
         code.code += code_to_execute_for_each_condition_list[index]
-        code.tabs -= 1
-    code.finishCodeBlock()
-
-code = Code("")
-ifElse(["a==b", "b == c"], ["return 0;", "return 1;"], code)
-print(code.code)
+        code.finishCodeBlock()

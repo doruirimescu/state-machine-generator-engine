@@ -8,6 +8,11 @@ class EnumClass(Type):
     enumerator_list: List[str]
 
     def declare(self, code: Code):
+        return super().declare(code=code)
+
+    def define(self, code: Code = None):
+        if code is None:
+            code = Code("")
         code.appendNewLineWithTabs()
         code.code += "enum class " + self.name
         code.startCodeBlock()
@@ -17,12 +22,16 @@ class EnumClass(Type):
         code.code = code.code.rstrip(",")
         code.finishCodeBlock()
         code.code +=";"
+        return code.code
 
-    def assign(self, value: str, code: Code):
+    def assign(self, value: str, code: Code = None):
+        if code is None:
+            code = Code("")
         if value not in self.enumerator_list:
             raise ValueError("Value not in enum")
         code.appendNewLineWithTabs()
         code.code += self.label + " = " + self.name + "::" + value + ";"
+        return code.code
 
     def getEnumerator(self, value: str):
         if value not in self.enumerator_list:
