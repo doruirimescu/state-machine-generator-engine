@@ -15,20 +15,20 @@ class StateMachineCppGenerator:
             add_actions += "\n}"
 
         add_states = ""
-        for s in blueprint.stateList:
+        for s in blueprint.state_list:
             add_states += "\n\tcase {}:".format(str(s.index))
             add_states += "\n\t\t{};".format(s.output)
             add_states += "\n\t\tbreak;"
 
         add_constructor = ""
-        for s in blueprint.stateList:
+        for s in blueprint.state_list:
             add_constructor += '\n\tstate{name} = new State({state},\"{label}\");'.format(name=str(s.index),
                 label=s.label, state=str(s.index))
         add_destructor = ""
-        for s in blueprint.stateList:
+        for s in blueprint.state_list:
             add_destructor += '\n\tdelete state{name};'.format(name=str(s.index))
 
-        for s in blueprint.stateList:
+        for s in blueprint.state_list:
             transitions =""
             for action in s.successors:
                 transitions+= "\n\tstate{}->add{}(state{});".format( str(s.index),
@@ -70,7 +70,7 @@ void StateMachine::print()
 {
     cout << "State: " << ptr -> state <<" "<<
         "Label: " << ptr->label <<endl;
-}''' % (add_constructor, str(blueprint.stateList[0].index), add_destructor, add_actions, add_states)
+}''' % (add_constructor, str(blueprint.state_list[0].index), add_destructor, add_actions, add_states)
         f = open("generated/oop/src/state_machine.cpp", "w+")
         f.write(code)
         f.close

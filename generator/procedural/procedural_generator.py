@@ -10,10 +10,10 @@ class ProceduralGenerator(Generator):
     """
 
     def generate(self, blueprint: Blueprint):
-        self._generateHeaderCode(blueprint.stateLabels, blueprint.actions, blueprint.stateOutputs, blueprint.stateList)
-        self._generateSourceCode(blueprint.stateLabels, blueprint.stateOutputs, blueprint.stateList)
+        self._generateHeaderCode(blueprint.state_labels, blueprint.actions, blueprint.state_outputs, blueprint.state_list)
+        self._generateSourceCode(blueprint.state_labels, blueprint.state_outputs, blueprint.state_list)
 
-    def _generateHeaderCode(self, labels, actions, outputs, stateList):
+    def _generateHeaderCode(self, labels, actions, outputs, state_list):
         add_states = ""
         for l in labels:
             add_states += "\n\t" + str(l)+","
@@ -55,7 +55,7 @@ StateLabel performTransition(StateLabel current_state, Action action);
         f.write(code)
         f.close
 
-    def _generateSourceCode(self, labels, outputs, stateList):
+    def _generateSourceCode(self, labels, outputs, state_list):
         add_outputs = ""
         for index, label in enumerate(labels):
             if outputs[index] != -1:
@@ -67,7 +67,7 @@ StateLabel performTransition(StateLabel current_state, Action action);
                 add_onEntry += "\n\t\tcase StateLabel::" + label + ":" + "\n\t\t\toutput"+label+"();\n\t\t\tbreak;\n"
 
         add_Transitions =""
-        for index, state in enumerate(stateList):
+        for index, state in enumerate(state_list):
             IFELIF = "if" if index == 0 else "else if"
 
             add_Transitions += "\n\t" + IFELIF + "(current_state == StateLabel::" + state.label + ")"

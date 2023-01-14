@@ -11,7 +11,7 @@ class StateMachineHeaderGenerator(Generator):
             add_actions +="\n\tvoid move" + a + "();"
 
         add_state_pointers = ""
-        for s in blueprint.stateList:
+        for s in blueprint.state_list:
             add_state_pointers += "\tState* state" + str(s.index) + ";\n"
 
         code='''/* ----Generated code---- */

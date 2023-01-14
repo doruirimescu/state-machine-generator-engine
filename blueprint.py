@@ -37,33 +37,60 @@ outputs = ("std::cout<<\"1\"<<std::endl;",
 actionList = ("Left",  "Right", "Up",   "Down", "Select")
 
 
+def extractStatesFromTransitionTable(state_transition_table, actions, state_outputs):
+    state_labels = list(x[0] for x in state_transition_table)
+    state_list = list()
+
+    for index, row in enumerate(state_transition_table):
+        successors = dict()
+        for successorIndex, successorLabel in enumerate(row[1: len(actions) + 1]):
+            if -1 is not successorLabel:
+                successors.update({actions[successorIndex]: state_labels.index(successorLabel)})
+            else:
+                continue
+        s = State(index, row[0], successors, state_outputs[index])
+        state_list.append(s)
+    return (state_list, state_labels)
+
 @dataclass(frozen=True)
 class Blueprint:
-    stateTransitionTable: Tuple[Tuple[str]]
-    stateOutputs: Tuple[str]
+    state_labels: List[str]
+    state_list: List[State]
+    state_outputs: Tuple[str]
     actions: Tuple[str]
 
-    stateLabels: List[str] = field(init=False)
-    stateList: List[State] = field(init=False)
+    def __str__(self):
+        # Initialize an empty string to store the contents of the Blueprint class
+        contents = ""
 
-    def extractStatesFromTransitionTable(self):
-        stateLabels = list(x[0] for x in self.stateTransitionTable)
-        stateList = list()
+        # Add the state outputs to the contents string
+        contents += "State outputs:\n"
+        for row in self.state_outputs:
+            contents += f"{row}\n"
+        contents += "\n"
 
-        for index, row in enumerate(self.stateTransitionTable):
-            successors = dict()
-            for successorIndex, successorLabel in enumerate(row[1: len(self.actions) + 1]):
-                if -1 is not successorLabel:
-                    successors.update({self.actions[successorIndex]: stateLabels.index(successorLabel)})
-                else:
-                    continue
-            s = State(index, row[0], successors, self.stateOutputs[index])
-            stateList.append(s)
-        return (stateList, stateLabels)
+        # Add the actions to the contents string
+        contents += f"Actions:\n{self.actions}\n\n"
 
-    def __post_init__(self):
-        stateList, stateLabels = self.extractStatesFromTransitionTable()
-        object.__setattr__(self, "stateList", stateList)
-        object.__setattr__(self, "stateLabels", stateLabels)
+        # Add the state_labels to the contents string
+        contents += f"state_labels:\n{self.state_labels}\n\n"
 
-blueprint = Blueprint(a, outputs, actionList)
+        # Add the state_list to the contents string
+        contents+="List of States:\n"
+        for state in self.state_list:
+            contents+=f"  Label: {state.label}\n"
+            contents+=f"  Index: {state.index}\n"
+            contents+=f"  Successors:\n"
+            for action, next_state in state.successors.items():
+                contents+=f"    {action}: {self.state_labels[next_state]}\n"
+            contents+=f"  Output: {state.output}\n"
+            contents+="\n"
+        return contents
+
+def initialize_blueprint(state_transition_table, state_outputs, action_list):
+    state_list, state_labels = extractStatesFromTransitionTable(state_transition_table, action_list, state_outputs)
+    return Blueprint(state_labels, state_list, outputs, actionList)
+
+blueprint = initialize_blueprint(a, outputs, actionList)
+
+print(blueprint)

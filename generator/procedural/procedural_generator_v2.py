@@ -10,15 +10,15 @@ from blueprint import blueprint
 
 def generateTransitionFunction(parameter_list):
     state_label_enum, action_enum = parameter_list
-    transition_function = Function("StateLabel", "performTransition", [state_label_enum, action_enum])
+    transition_function = Function(state_label_enum.name, "performTransition", [state_label_enum, action_enum])
 
     first_if_code_list = list()
-    for state in blueprint.stateList:
+    for state in blueprint.state_list:
         first_if_code = Code("")
         first_if_code.tabs = 1
         first_if_condition_list = [action_enum.label + "==" +
                                    action_enum.getEnumerator(action) for action in state.successors]
-        next_state_enum = EnumClass("StateLabel", "next_state", blueprint.stateLabels)
+        next_state_enum = EnumClass("StateLabel", "next_state", blueprint.state_labels)
 
         second_if_code_list = list()
         for action in state.successors:
@@ -26,7 +26,7 @@ def generateTransitionFunction(parameter_list):
             second_if_condition_code.tabs = first_if_code.tabs + 1
             next_state_enum.declare(second_if_condition_code)
 
-            next_state_enum.assign(blueprint.stateLabels[state.successors[action]], second_if_condition_code)
+            next_state_enum.assign(blueprint.state_labels[state.successors[action]], second_if_condition_code)
             on_state_entry_function.call([
                 next_state_enum.label], second_if_condition_code)
             second_if_condition_code.appendNewLineWithTabs()
@@ -47,19 +47,19 @@ def generateTransitionFunction(parameter_list):
 def generateOnStateEntryFunction(state_label_enum, blueprint):
     on_state_entry_function_body = Code("")
     switchCase(state_label_enum.label, map(state_label_enum.getEnumerator, state_label_enum.enumerator_list),
-            blueprint.stateOutputs, on_state_entry_function_body)
+            blueprint.state_outputs, on_state_entry_function_body)
     on_state_entry_function = Function("void", "onStateEntry", [state_label_enum], on_state_entry_function_body.code)
     return on_state_entry_function
 
 
 def generateOutputFunctions(blueprint):
     output_functions = list()
-    for index, stateLabel in enumerate(blueprint.stateLabels):
+    for index, stateLabel in enumerate(blueprint.state_labels):
         b = Brief("Called when state " + stateLabel + " is entered", [], None)
-        output_functions.append(Function("void", "output" + stateLabel, [], blueprint.stateOutputs[index], b))
+        output_functions.append(Function("void", "output" + stateLabel, [], blueprint.state_outputs[index], b))
     return output_functions
 
-state_label_enum = EnumClass("StateLabel", "current_state", blueprint.stateLabels)
+state_label_enum = EnumClass("StateLabel", "current_state", blueprint.state_labels)
 action_enum = EnumClass("Action", "action", blueprint.actions)
 
 

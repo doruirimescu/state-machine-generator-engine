@@ -21,7 +21,7 @@ class EnumClass(Type):
             code.code += label + ","
         code.code = code.code.rstrip(",")
         code.finishCodeBlock()
-        code.code +=";"
+        code.code += ";"
         return code.code
 
     def assign(self, value: str, code: Code = None):
