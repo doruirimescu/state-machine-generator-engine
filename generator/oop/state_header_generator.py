@@ -4,6 +4,8 @@ from generator.generator import Generator
 
 
 class StateHeaderGenerator(Generator):
+    def __init__(self, path_to_generate) -> None:
+        super().__init__(path_to_generate)
     def generate(self, blueprint: Blueprint):
         add_actions = ""
         for a in blueprint.actions:
@@ -37,7 +39,7 @@ class State
     string label;
     %s
 };''' % (add_actions, add_states)
-
-        f = open("generated/oop/include/state.h", "w+")
+        state_header_path = self.path_to_generate + "oop/include/state.h"
+        f = open(state_header_path, "w+")
         f.write(code)
         f.close

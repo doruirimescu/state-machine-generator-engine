@@ -4,6 +4,9 @@ from generator.generator import Generator
 
 
 class StateMachineHeaderGenerator(Generator):
+    def __init__(self, path_to_generate) -> None:
+        super().__init__(path_to_generate)
+
     def generate(self, blueprint: Blueprint):
         #generate code snippets
         add_actions = ""
@@ -40,6 +43,7 @@ class StateMachine
 \tState * ptr;
 %s
 };''' % (add_actions, add_state_pointers)
-        f= open("generated/oop/include/state_machine.h","w+")
+        state_machine_header_path = self.path_to_generate + "oop/include/state_machine.h"
+        f= open(state_machine_header_path,"w+")
         f.write(code)
         f.close

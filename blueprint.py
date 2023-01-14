@@ -2,7 +2,7 @@
 It is the blueprint used to generated the code.
 """
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from state import State
 
 """ State transition table. First column represents the starting state.
@@ -52,12 +52,13 @@ def extractStatesFromTransitionTable(state_transition_table, actions, state_outp
         state_list.append(s)
     return (state_list, state_labels)
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)
 class Blueprint:
     state_labels: List[str]
     state_list: List[State]
     state_outputs: Tuple[str]
     actions: Tuple[str]
+    state_index_to_label: Optional[dict] = None
 
     def __str__(self):
         # Initialize an empty string to store the contents of the Blueprint class
@@ -95,6 +96,10 @@ def initialize_blueprint(state_transition_table, state_outputs, action_list):
     return Blueprint(state_labels, state_list, outputs, actionList)
 
 blueprint = initialize_blueprint(a, outputs, actionList)
+
+blueprint.state_index_to_label = dict()
+for i, label in enumerate(blueprint.state_labels):
+    blueprint.state_index_to_label[i] = label
 
 # print(blueprint)
 #print(blueprint.state_list)

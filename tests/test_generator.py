@@ -5,13 +5,13 @@ from generator.procedural.procedural_generator import ProceduralGenerator
 from generator.oop.oop_generator import OOPGenerator
 
 
-class TestProceduralGenerator(unittest.TestCase):
+class TestProceduralFromPythonGenerator(unittest.TestCase):
     def __init__(self, methodName: str) -> None:
         super().__init__(methodName=methodName)
-        proceduralGenerator = ProceduralGenerator()
+        proceduralGenerator = ProceduralGenerator("generated/from_python/")
         proceduralGenerator.generate(blueprint)
 
-        oopGenerator = OOPGenerator()
+        oopGenerator = OOPGenerator("generated/from_python/")
         oopGenerator.generate(blueprint)
 
     def compareFiles(self, filepath_1, filepath_2):
@@ -27,30 +27,30 @@ class TestProceduralGenerator(unittest.TestCase):
 
     def test_ProceduralGeneratorHeader(self):
         test_path = "tests/test_files/procedural/header.h"
-        generated_path = "generated/procedural/include/header.h"
+        generated_path = "generated/from_python/procedural/include/header.h"
         self.compareFiles(test_path, generated_path)
 
     def test_ProceduralGeneratorSource(self):
         test_path = "tests/test_files/procedural/source.cpp"
-        generated_path = "generated/procedural/src/source.cpp"
+        generated_path = "generated/from_python/procedural/src/source.cpp"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateHeader(self):
         test_path = "tests/test_files/oop/include/state.h"
-        generated_path = "generated/oop/include/state.h"
+        generated_path = "generated/from_python/oop/include/state.h"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateSource(self):
         test_path = "tests/test_files/oop/src/state.cpp"
-        generated_path = "generated/oop/src/state.cpp"
+        generated_path = "generated/from_python/oop/src/state.cpp"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateMachineHeader(self):
         test_path = "tests/test_files/oop/include/state_machine.h"
-        generated_path = "generated/oop/include/state_machine.h"
+        generated_path = "generated/from_python/oop/include/state_machine.h"
         self.compareFiles(test_path, generated_path)
 
     def test_OopGeneratorStateMachineSource(self):
         test_path = "tests/test_files/oop/src/state_machine.cpp"
-        generated_path = "generated/oop/src/state_machine.cpp"
+        generated_path = "generated/from_python/oop/src/state_machine.cpp"
         self.compareFiles(test_path, generated_path)

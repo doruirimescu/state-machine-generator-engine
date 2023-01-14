@@ -98,7 +98,7 @@ def find_substates(rectangles):
 
 def extract_output(text: str) -> str:
     if text is None:
-        return None
+        return ""
     start = "output:"
     end = "on_entry:"
     return text[text.find(start) + len(start): text.rfind(end)].strip()
@@ -106,7 +106,7 @@ def extract_output(text: str) -> str:
 
 def extract_on_entry(text: str) -> str:
     if text is None:
-        return None
+        return ""
     start = "on_entry:"
     end = "on_exit:"
     return text[text.find(start) + len(start): text.rfind(end)].strip()
@@ -114,7 +114,7 @@ def extract_on_entry(text: str) -> str:
 
 def extract_on_exit(text: str) -> str:
     if text is None:
-        return None
+        return ""
     start = "on_exit:"
     return text[text.find(start) + len(start): -1].strip()
 
@@ -144,6 +144,8 @@ def print_arrows(arrows, arrow_to_rectangles, rectangles):
 
 def create_blueprint(rectangles, arrows, arrow_to_rectangles):
     state_labels = [rectangle.label for rectangle in rectangles.values()]
+    state_indexes = rectangles.keys()
+    state_index_to_label = dict(zip(state_indexes, state_labels))
     state_outputs = [extract_output(rectangle.tooltip) for rectangle in rectangles.values()]
     action_labels = [arrows[arrow].label for arrow in arrows]
 
@@ -161,10 +163,11 @@ def create_blueprint(rectangles, arrows, arrow_to_rectangles):
         state_output = extract_output(rectangle_tooltip)
         state_on_entry = extract_on_entry(rectangle_tooltip)
         state_on_exit = extract_on_exit(rectangle_tooltip)
-        s = State(rectangle_id, rectangles[rectangle_id].label, successors, state_output, state_on_entry, state_on_exit)
+        s = State(rectangle_id, rectangles[rectangle_id].label, successors,
+                  state_output, state_on_entry, state_on_exit)
         state_list.append(s)
         index += 1
-    return Blueprint(state_labels, state_list, state_outputs, action_labels)
+    return Blueprint(state_labels, state_list, state_outputs, action_labels, state_index_to_label)
 
 
 def draw_io_xml_to_blueprint(xml_file: str) -> Blueprint:
@@ -179,3 +182,5 @@ def draw_io_xml_to_blueprint(xml_file: str) -> Blueprint:
     rectangles, arrows, arrow_to_rectangles = __parse_diagram(xml_file)
     bp = create_blueprint(rectangles, arrows, arrow_to_rectangles)
     return bp
+
+# bp = draw_io_xml_to_blueprint("example_simple.xml")

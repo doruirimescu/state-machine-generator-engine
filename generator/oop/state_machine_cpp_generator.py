@@ -3,7 +3,9 @@ from blueprint import Blueprint
 from generator.generator import Generator
 
 
-class StateMachineCppGenerator:
+class StateMachineCppGenerator(Generator):
+    def __init__(self, path_to_generate) -> None:
+        super().__init__(path_to_generate)
     def generate(self, blueprint: Blueprint):
         # generate code snippets
         add_actions = ""
@@ -71,6 +73,7 @@ void StateMachine::print()
     cout << "State: " << ptr -> state <<" "<<
         "Label: " << ptr->label <<endl;
 }''' % (add_constructor, str(blueprint.state_list[0].index), add_destructor, add_actions, add_states)
-        f = open("generated/oop/src/state_machine.cpp", "w+")
+        state_machine_source_path = self.path_to_generate + "oop/src/state_machine.cpp"
+        f = open(state_machine_source_path, "w+")
         f.write(code)
         f.close

@@ -11,10 +11,14 @@ function cppBuildAndTest()
 #Runs all python tests
 python3 -m pytest
 
+# From_python tests
 #Runs tests on generated oop C++ code
-cd generated/oop
+cd generated/from_python/oop
 cppBuildAndTest
 
 #Runs tests on generated procedural C++ code
 cd ../procedural
+cppBuildAndTest
+
+cd ../../from_drawio/procedural
 cppBuildAndTest

@@ -17,20 +17,27 @@ class Modes(Enum):
 
 
 # Selecting blueprint source
-BLUEPRINT_SOURCE = BlueprintSource.FROM_PYTHON
+path_to_generate = "generated/"
+BLUEPRINT_SOURCE = BlueprintSource.FROM_DRAWIO
 state_machine_blueprint = None
 if BLUEPRINT_SOURCE == BlueprintSource.FROM_PYTHON:
     from blueprint import blueprint
     state_machine_blueprint = blueprint
+    path_to_generate += "from_python/"
 elif BLUEPRINT_SOURCE == BlueprintSource.FROM_DRAWIO:
+    path_to_generate += "from_drawio/"
     from draw_io.parse_drawio import draw_io_xml_to_blueprint
     state_machine_blueprint = draw_io_xml_to_blueprint("draw_io/example_simple.xml")
+
+print("State machine blueprint is ", state_machine_blueprint)
 
 # Selecting generation mode
 SELECTED_MODE = Modes.PROCEDURAL
 if SELECTED_MODE == Modes.OOP:
-    gen = OOPGenerator()
+    gen = OOPGenerator(path_to_generate)
     gen.generate(state_machine_blueprint)
+    print("OOP generation ended")
 elif SELECTED_MODE == Modes.PROCEDURAL:
-    gen = ProceduralGenerator()
+    gen = ProceduralGenerator(path_to_generate)
     gen.generate(state_machine_blueprint)
+    print("Procedural generation ended")
