@@ -1,11 +1,14 @@
 /* ----Generated code---- */
 #include "header.h"
+using namespace std;
+
+int x = 0;
 
 /* Function definitions */
 void outputstate_2()
 {
 	cout << "Hello from state 2" << endl;
-x += 10;
+    x += 10;
 }
 
 void outputstate_1()
@@ -16,17 +19,17 @@ cout << "Hello from state 1" << endl;
 
 void outputstate_3()
 {
-	
+
 }
 
 void outputstart()
 {
-	
+
 }
 
 void outputend()
 {
-	
+
 }
 
 void onStateEntry(StateLabel current_state)
