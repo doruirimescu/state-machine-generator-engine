@@ -1,6 +1,9 @@
 import xml.etree.ElementTree as ET
 from typing import List, Tuple, Dict, Optional
 from dataclasses import dataclass
+from state import State
+from blueprint import Blueprint
+
 """Parse draw.io generated xml to state machine. Rectangles, arrows and recognizes substates.
 """
 
@@ -140,9 +143,6 @@ def print_arrows(arrows, arrow_to_rectangles, rectangles):
 
 
 def create_blueprint(rectangles, arrows, arrow_to_rectangles):
-    from state import State
-    from blueprint import Blueprint
-
     state_labels = [rectangle.label for rectangle in rectangles.values()]
     state_outputs = [extract_output(rectangle.tooltip) for rectangle in rectangles.values()]
     action_labels = [arrows[arrow].label for arrow in arrows]
@@ -166,7 +166,16 @@ def create_blueprint(rectangles, arrows, arrow_to_rectangles):
         index += 1
     return Blueprint(state_labels, state_list, state_outputs, action_labels)
 
-def draw_io_xml_to_blueprint(xml_file):
+
+def draw_io_xml_to_blueprint(xml_file: str) -> Blueprint:
+    """Take draw.io xml file and parse it, return blueprint
+
+    Args:
+        xml_file (str): path to xml file
+
+    Returns:
+        Blueprint: blueprint for state machine
+    """
     rectangles, arrows, arrow_to_rectangles = __parse_diagram(xml_file)
     bp = create_blueprint(rectangles, arrows, arrow_to_rectangles)
     return bp
