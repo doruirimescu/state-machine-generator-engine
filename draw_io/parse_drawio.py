@@ -139,14 +139,6 @@ def print_arrows(arrows, arrow_to_rectangles, rectangles):
         print()
 
 
-xml_file = "example_simple.xml"
-rectangles, arrows, arrow_to_rectangles = __parse_diagram(xml_file)
-find_substates(rectangles)
-
-print_rectangles(rectangles)
-print_arrows(arrows, arrow_to_rectangles, rectangles)
-
-
 def create_blueprint(rectangles, arrows, arrow_to_rectangles):
     from state import State
     from blueprint import Blueprint
@@ -174,6 +166,7 @@ def create_blueprint(rectangles, arrows, arrow_to_rectangles):
         index += 1
     return Blueprint(state_labels, state_list, state_outputs, action_labels)
 
-bp = create_blueprint(rectangles, arrows, arrow_to_rectangles)
-
-print(bp)
+def draw_io_xml_to_blueprint(xml_file):
+    rectangles, arrows, arrow_to_rectangles = __parse_diagram(xml_file)
+    bp = create_blueprint(rectangles, arrows, arrow_to_rectangles)
+    return bp
