@@ -61,13 +61,13 @@ class Blueprint:
 
     def __str__(self):
         # Initialize an empty string to store the contents of the Blueprint class
-        contents = ""
+        contents = "---------BLUEPRINT--------\n"
 
         # Add the state outputs to the contents string
-        contents += "State outputs:\n"
-        for row in self.state_outputs:
-            contents += f"{row}\n"
-        contents += "\n"
+        # contents += "State outputs:\n"
+        # for row in self.state_outputs:
+        #     contents += f"{row}\n"
+        # contents += "\n"
 
         # Add the actions to the contents string
         contents += f"Actions:\n{self.actions}\n\n"
@@ -82,8 +82,11 @@ class Blueprint:
             contents+=f"  Index: {state.index}\n"
             contents+=f"  Successors:\n"
             for action, next_state in state.successors.items():
-                contents+=f"    {action}: {self.state_labels[next_state]}\n"
+                ns = [state for state in self.state_list if state.index == next_state][0]
+                contents+=f"    {action}: {ns.label}\n"
             contents+=f"  Output: {state.output}\n"
+            contents+=f"  One_entry: {state.on_entry}\n"
+            contents+=f"  One_exit: {state.on_exit}\n"
             contents+="\n"
         return contents
 
@@ -93,4 +96,5 @@ def initialize_blueprint(state_transition_table, state_outputs, action_list):
 
 blueprint = initialize_blueprint(a, outputs, actionList)
 
-print(blueprint)
+# print(blueprint)
+#print(blueprint.state_list)
